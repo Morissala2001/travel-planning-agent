@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.DS_Store
+
+# Model weights are never committed: the sentence encoder is downloaded from the Hugging Face Hub on first use.
+models/
+*.safetensors
+*.bin
+.cache/
+
+# Local copies of the database made by experiments
+*.db-journal
+data/*.copy.db

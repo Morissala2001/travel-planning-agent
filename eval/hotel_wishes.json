@@ -1,0 +1,40 @@
+{
+  "_comment": "One wish per kind of hotel found in the brochures, written in three languages. A search is right when the presentation or the reviews of the top hotel contain one of the keywords (the brochures are in French). Only cities that have at least one such hotel are counted.",
+  "wishes": [
+    {"name": "family", "keywords": ["famil", "enfant"],
+     "fr": "un hôtel pour une famille avec des enfants",
+     "en": "a hotel for a family with children",
+     "ru": "отель для семьи с детьми"},
+    {"name": "party", "keywords": ["fête", "festif", "animé"],
+     "fr": "je veux faire la fête et sortir le soir",
+     "en": "I want to party and go out at night",
+     "ru": "хочу веселиться и гулять по ночам"},
+    {"name": "romantic", "keywords": ["romantique", "amoureux", "couple"],
+     "fr": "un week-end romantique en amoureux",
+     "en": "a romantic weekend for a couple",
+     "ru": "романтические выходные для пары"},
+    {"name": "luxury", "keywords": ["luxe", "palace"],
+     "fr": "le grand luxe, un palace avec un service irréprochable",
+     "en": "pure luxury, a palace with flawless service",
+     "ru": "настоящая роскошь, дворец с безупречным сервисом"},
+    {"name": "quiet", "keywords": ["calme"],
+     "fr": "un hôtel très calme pour se reposer",
+     "en": "a very quiet hotel to get some rest",
+     "ru": "очень тихий отель, чтобы отдохнуть"},
+    {"name": "design", "keywords": ["design"],
+     "fr": "un hôtel au design moderne et original",
+     "en": "a hotel with a modern, original design",
+     "ru": "отель с современным оригинальным дизайном"},
+    {"name": "budget", "keywords": ["économique", "pas cher", "petit prix"],
+     "fr": "un logement pas cher pour un petit budget",
+     "en": "cheap accommodation for a small budget",
+     "ru": "недорогое жильё для небольшого бюджета"}
+  ],
+  "negation": {
+    "_comment": "Sentence encoders do not understand negation well: how often is a family hotel ranked first for a hotel WITHOUT children? (out of the 15 cities)",
+    "keywords": ["famil", "enfant"],
+    "fr": "un hôtel sans enfants",
+    "en": "a hotel without children",
+    "ru": "отель без детей"
+  }
+}
