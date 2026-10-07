@@ -430,12 +430,9 @@ TEXT = {
     "name_first": {"en": "Enter a name first.", "fr": "Indiquez d'abord un nom.", "ru": "Сначала укажите имя."},
     "confirm_button": {"en": "Yes, I confirm", "fr": "Oui, je confirme", "ru": "Да, подтверждаю"},
     "data_caption": {
-        "en": "Flights, hotels and activities are fictional data from the Machine Learnia summer course: do not plan "
-              "real holidays with them.",
-        "fr": "Vols, hôtels et activités sont des données fictives du cahier de vacances Machine Learnia : ne préparez "
-              "pas de vraies vacances avec.",
-        "ru": "Рейсы, отели и занятия — вымышленные данные летнего курса Machine Learnia: не планируйте по ним "
-              "настоящий отпуск.",
+        "en": "Flights, hotels and activities are fictional data: do not plan real holidays with them.",
+        "fr": "Vols, hôtels et activités sont des données fictives : ne préparez pas de vraies vacances avec.",
+        "ru": "Рейсы, отели и занятия — вымышленные данные: не планируйте по ним настоящий отпуск.",
     },
 }
 
