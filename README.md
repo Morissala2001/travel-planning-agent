@@ -1,5 +1,7 @@
 # 🧳 Travel agent
 
+[![tests](https://github.com/Morissala2001/travel-planning-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/Morissala2001/travel-planning-agent/actions/workflows/tests.yml)
+
 *An agent that plans a trip within a budget, explains every trade-off it made, and books only after you confirm. It answers in English, French or Russian.*
 
 You give a destination, dates, a budget per person and a wish in your own words ("a family hotel with a pool"). The agent searches flights and activities in a SQL database, finds the hotels whose brochures match your wish by meaning, prices the trip, and when the budget is short it gives things up one by one, tells you what it gave up, and looks at the neighbouring days in case leaving one day earlier would be better. The project has a **web app** (Streamlit), a **CLI** (`travel-agent`) and a small **library** (`src/travel_agent`).
