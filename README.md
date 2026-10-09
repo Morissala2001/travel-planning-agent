@@ -4,6 +4,9 @@
 
 *An agent that plans a trip within a budget, explains every trade-off it made, and books only after you confirm. It answers in English, French or Russian.*
 
+![Demo: a wish typed in French gets a plan in French, then the page switches to Russian](docs/demo.gif)
+<sub>The wish is typed in French, so the plan comes in French; then the same page in Russian.</sub>
+
 You give a destination, dates, a budget per person and a wish in your own words ("a family hotel with a pool"). The agent searches flights and activities in a SQL database, finds the hotels whose brochures match your wish by meaning, prices the trip, and when the budget is short it gives things up one by one, tells you what it gave up, and looks at the neighbouring days in case leaving one day earlier would be better. The project has a **web app** (Streamlit), a **CLI** (`travel-agent`) and a small **library** (`src/travel_agent`).
 
 **An agent is a loop, not a language model.** It sets a goal, calls tools, checks the result against the goal, corrects and tries again. No language model is used here: every sentence of the explanation is a template filled with numbers the code computed, so it cannot invent anything.
