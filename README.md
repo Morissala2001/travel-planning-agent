@@ -4,6 +4,8 @@
 
 *An agent that plans a trip within a budget, explains every trade-off it made, and books only after you confirm. It answers in English, French or Russian.*
 
+**[▶ Try it online](https://travel-planning-agent-morissala.streamlit.app/)** (free hosting: the first visit may take a minute to wake the app up. Online, every visitor books in their own copy of the data, deleted when they leave.)
+
 ![Demo: a wish typed in French gets a plan in French, then the page switches to Russian](docs/demo.gif)
 <sub>The wish is typed in French, so the plan comes in French; then the same page in Russian.</sub>
 
@@ -73,7 +75,7 @@ uv run travel-agent benchmark    # the measurements of this README, a few minute
 **Tests** (offline: a tiny generated world and a fake encoder, no download)
 
 ```bash
-uv run pytest                                   # 67 tests
+uv run pytest                                   # 69 tests
 TRAVEL_AGENT_RUN_SLOW=1 uv run pytest -m slow   # real encoder: the original notebook's trips, to the euro
 ```
 

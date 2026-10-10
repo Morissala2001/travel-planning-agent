@@ -4,6 +4,9 @@
 
 The interface and the answers follow the language of the wish (English, French or Russian), or the one chosen at
 the top of the page. TRAVEL_AGENT_DB and TRAVEL_AGENT_BROCHURES point to other data, for instance a copy.
+
+Online (Streamlit Community Cloud, or TRAVEL_AGENT_PUBLIC=1), every visitor books in their own copy of the
+database, deleted when their session ends.
 """
 
 import os
@@ -15,7 +18,7 @@ import streamlit as st
 
 from travel_agent import tools
 from travel_agent.booking import book
-from travel_agent.data import DEFAULT_BROCHURES, DEFAULT_DB, cities, connect, date_range, load_brochures
+from travel_agent.data import DEFAULT_BROCHURES, DEFAULT_DB, PrivateCopy, cities, connect, date_range, load_brochures
 from travel_agent.i18n import (DEFAULT_LANGUAGE, LANGUAGES, TEXT, category_name, city_name, count, day_label,
                                detect_language, money, number, origin_name, t)
 from travel_agent.planner import Request, TravelAgent
@@ -24,8 +27,15 @@ from travel_agent.render import booking_text, log_lines, trip_title, verdict
 DB = Path(os.environ.get("TRAVEL_AGENT_DB", DEFAULT_DB))
 BROCHURES = Path(os.environ.get("TRAVEL_AGENT_BROCHURES", DEFAULT_BROCHURES))
 EXAMPLES = TEXT["example_wish"]
+# Streamlit Community Cloud runs the apps from /mount/src/<repository>/
+PUBLIC = os.environ.get("TRAVEL_AGENT_PUBLIC") == "1" or Path(__file__).resolve().as_posix().startswith("/mount/src/")
 
 st.set_page_config(page_title="Travel agent", page_icon=":material/luggage:", layout="wide")
+
+if PUBLIC and DB.exists():  # a missing database is reported below, like on a computer
+    if "private_db" not in st.session_state:
+        st.session_state.private_db = PrivateCopy(DB)  # deleted with the visitor's session
+    DB = st.session_state.private_db.path
 
 
 @st.cache_resource(show_spinner=False)
@@ -219,6 +229,8 @@ def confirm_booking(trip, client: str) -> None:
 
 st.divider()
 st.subheader(t("book_title", lang))
+if PUBLIC:
+    st.caption(t("demo_note", lang))
 name_column, button_column = st.columns([3, 1], vertical_alignment="bottom")
 client = name_column.text_input(t("name", lang), placeholder=t("name_placeholder", lang), key="client").strip()
 button_column.button(t("book_button", lang), width="stretch", on_click=ask_confirmation)

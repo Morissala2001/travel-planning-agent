@@ -16,12 +16,17 @@ APP = Path(__file__).resolve().parents[1] / "app.py"
 
 
 @pytest.fixture
-def app(db, brochure_dir, monkeypatch):
+def new_app(db, brochure_dir, monkeypatch):
     st.cache_resource.clear()
     monkeypatch.setenv("TRAVEL_AGENT_DB", str(db))
     monkeypatch.setenv("TRAVEL_AGENT_BROCHURES", str(brochure_dir))
     monkeypatch.setattr(travel_agent.tools, "load_encoder", lambda *args, **kwargs: FakeEncoder())
-    return AppTest.from_file(str(APP), default_timeout=60).run()
+    return lambda: AppTest.from_file(str(APP), default_timeout=60).run()  # each one is a new visitor
+
+
+@pytest.fixture
+def app(new_app):
+    return new_app()
 
 
 def button(app, label):
@@ -97,3 +102,18 @@ def test_turning_restore_off_recomputes_the_plan(app):
     app.sidebar.toggle[0].set_value(False).run()
     assert not app.exception
     assert (with_restore, app.metric[2].value) == ("70 €", "0 €")  # all activities back vs. the bare programme
+
+
+def test_online_every_visitor_books_in_their_own_copy(new_app, db, monkeypatch):
+    monkeypatch.setenv("TRAVEL_AGENT_PUBLIC", "1")
+    for visitor in ("Ada", "Grace"):  # the same trip: the second visitor is not told it is already booked
+        app = new_app()
+        search(app)
+        assert any("Online demo" in c.value for c in app.caption)
+        app.text_input[0].set_value(visitor).run()
+        button(app, "Book this trip").click().run()
+        button(app, "Yes, I confirm").click().run()
+        assert app.success[-1].value.startswith(f"Booked for {visitor}: Madrid, 4 nights")
+    conn = sqlite3.connect(db)
+    assert conn.execute("SELECT COUNT(*) FROM reservations").fetchone()[0] == 0  # the shared data is untouched
+    assert conn.execute("SELECT places_restantes FROM vols WHERE numero = 'T12'").fetchone()[0] == 9

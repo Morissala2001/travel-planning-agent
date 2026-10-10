@@ -429,6 +429,13 @@ TEXT = {
     "book_button": {"en": "Book this trip", "fr": "Réserver ce voyage", "ru": "Забронировать"},
     "name_first": {"en": "Enter a name first.", "fr": "Indiquez d'abord un nom.", "ru": "Сначала укажите имя."},
     "confirm_button": {"en": "Yes, I confirm", "fr": "Oui, je confirme", "ru": "Да, подтверждаю"},
+    "demo_note": {
+        "en": "Online demo: your bookings go to your own copy of the data, deleted when you leave the page.",
+        "fr": "Démo en ligne : vos réservations vont dans votre propre copie des données, effacée quand vous quittez "
+              "la page.",
+        "ru": "Онлайн-демо: ваши бронирования записываются в вашу собственную копию данных, которая удаляется, "
+              "когда вы покидаете страницу.",
+    },
     "data_caption": {
         "en": "Flights, hotels and activities are fictional data: do not plan real holidays with them.",
         "fr": "Vols, hôtels et activités sont des données fictives : ne préparez pas de vraies vacances avec.",

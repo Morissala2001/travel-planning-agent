@@ -1,9 +1,11 @@
+import gc
 from datetime import date
+from pathlib import Path
 
 import pytest
 from conftest import ACTIVITIES, HOTELS, FakeEncoder, brochures_frame, make_db
 
-from travel_agent.data import cities, connect, date_range, load_brochures, query
+from travel_agent.data import PrivateCopy, cities, connect, date_range, load_brochures, query
 from travel_agent.tools import HotelSearch, find_activities, find_flights
 
 
@@ -11,6 +13,15 @@ def test_connect_refuses_a_missing_file_instead_of_creating_an_empty_database(tm
     with pytest.raises(FileNotFoundError):
         connect(tmp_path / "missing.db")
     assert not (tmp_path / "missing.db").exists()
+
+
+def test_a_private_copy_is_deleted_with_its_owner(db):
+    copy = PrivateCopy(db)
+    path = copy.path
+    assert path != Path(db) and path.read_bytes() == Path(db).read_bytes()
+    del copy  # a visitor's session ends
+    gc.collect()
+    assert not path.exists()
 
 
 def test_cities_and_date_range(conn):

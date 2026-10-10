@@ -24,6 +24,16 @@ travel-agent = "travel_agent.cli:main"
 [dependency-groups]
 dev = ["pytest>=8.0"]
 
+# On Linux (CI, Streamlit Community Cloud), the CPU build of PyTorch: no GPU is used, and PyPI's build pulls
+# about 3 GB of CUDA libraries. Windows and macOS get the CPU build from PyPI anyway.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

@@ -6,8 +6,12 @@ rename the columns to English in their SQL, so the rest of the code never sees t
 
 from __future__ import annotations
 
+import os
 import re
+import shutil
 import sqlite3
+import tempfile
+import weakref
 from datetime import date
 from pathlib import Path
 
@@ -16,6 +20,31 @@ import pandas as pd
 DATA = Path(__file__).resolve().parents[2] / "data"
 DEFAULT_DB = DATA / "voyages.db"
 DEFAULT_BROCHURES = DATA / "hotels"
+
+
+class PrivateCopy:
+    """A temporary copy of a database, deleted with this object (or by `close()`).
+
+    The online demo gives one to each visitor: their bookings neither take seats from other visitors nor keep
+    their name once they have left.
+    """
+
+    def __init__(self, source: str | Path):
+        handle, name = tempfile.mkstemp(suffix=".db")
+        os.close(handle)
+        self.path = Path(name)
+        shutil.copyfile(source, self.path)
+        self._delete = weakref.finalize(self, _remove, self.path)
+
+    def close(self) -> None:
+        self._delete()
+
+
+def _remove(path: Path) -> None:
+    try:
+        path.unlink(missing_ok=True)
+    except PermissionError:  # Windows keeps a file that is still open; the temporary folder is cleaned later
+        pass
 
 
 def connect(path: str | Path = DEFAULT_DB) -> sqlite3.Connection:
